@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection Dashboard</title>
+    <!-- Use Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Include FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-shield-halved logo-icon"></i>
+                <h2>TruthGuard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="#"><i class="fa-solid fa-radar-base"></i> Detector</a></li>
+                    <li><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> History</a></li>
+
+                </ul>
+            </nav>
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-titles">
+                    <h1>Fake News Detection Engine</h1>
+                </div>
+
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Input Section -->
+                <section class="card input-section">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-magnifying-glass-chart"></i> Analyze Article</h3>
+                    </div>
+                    <form id="prediction-form">
+                        <div class="input-group">
+                            <textarea id="news-input" rows="8" placeholder="Paste the news article, headline, or excerpt here for comprehensive analysis..." required></textarea>
+                            <div class="textarea-glow"></div>
+                        </div>
+                        
+                        <div class="action-bar">
+                            <button type="button" class="btn-ghost" id="clear-btn">
+                                <i class="fa-solid fa-eraser"></i> Clear Text
+                            </button>
+                            <button type="submit" class="btn-primary" id="predict-btn">
+                                <span class="btn-text">Run Analysis</span>
+                                <i class="fa-solid fa-arrow-right icon-right"></i>
+                                <span class="spinner hidden"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+                            </button>
+                        </div>
+                    </form>
+                    <div id="error-message" class="alert-error hidden"></div>
+                </section>
+
+                <!-- Results Section -->
+                <section class="card results-section">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-poll"></i> Analysis Results</h3>
+                    </div>
+                    
+                    <div id="empty-state" class="empty-state">
+                        <i class="fa-solid fa-microscope"></i>
+                        <p>Submit text to generate an analysis report.</p>
+                    </div>
+
+                    <div id="result-container" class="result-display hidden">
+                        <div class="result-badge" id="result-badge">
+                            <i id="result-icon" class="fa-solid"></i>
+                            <h2 id="prediction-result">Real News</h2>
+                        </div>
+
+                        <div class="confidence-meter">
+                            <div class="meter-header">
+                                <span>Confidence Probability</span>
+                                <span id="confidence-value" class="value-text">0%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div id="progress-fill" class="progress-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="analysis-details">
+                            <div class="detail-item">
+                                <span class="label">Algorithm:</span>
+                                <span class="value">Multinomial Naive Bayes</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Feature Extractor:</span>
+                                <span class="value">TF-IDF Vectorizer</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Processing Time:</span>
+                                <span class="value">~45ms</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- History Section -->
+                <section class="card history-section" style="grid-column: 1 / -1;">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity Log</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Article Excerpt</th>
+                                    <th>Classification</th>
+                                    <th>Confidence</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-list">
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted py-4">No analysis history available in current session.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
